@@ -51,4 +51,15 @@ public class GraphCreator {
         }
         return result;
     }
+
+    public static String[] GetRoute(String body) {
+        body = body.toUpperCase();
+        var rPos = body.indexOf("ROUTE");
+        if (rPos < 0) return null;
+        var substr = body.substring(body.indexOf("{",rPos+1)+1,body.indexOf("}", rPos+1)).trim().split(";");
+        if(substr.length != 2) return null;
+        substr[0] = substr[0].trim();
+        substr[1] = substr[1].trim();
+        return substr;
+    }
 }

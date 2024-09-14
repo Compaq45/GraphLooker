@@ -14,7 +14,7 @@ public class UndirectedGraphNode {
 
     public UndirectedGraphNode(String name) {
         ribs = new HashMap<>();
-        this.setName(name);
+        this.name = name;
         wayCost = (long) -1;
     }
 
@@ -44,9 +44,6 @@ public class UndirectedGraphNode {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public HashMap<UndirectedGraphNode, Long> GetRibs() {
         return ribs;

@@ -30,13 +30,16 @@ public class UndirectedGraph {
         UndirectedGraphNode startVertex = GetVertexByName(from);
         UndirectedGraphNode endVertex = GetVertexByName(to);
         if (startVertex == null || endVertex == null) return (long) -1;
+        Clear();
         var queue = new LinkedList<UndirectedGraphNode>();
         queue.add(startVertex);
         startVertex.setWayCost(0);
         do {
-            UndirectedGraphNode currentNode = queue.pollFirst();
+            UndirectedGraphNode currentNode = queue.get(GetMinimal(queue));
+            queue.remove(currentNode);
             for (var lookingHope:
                  currentNode.GetRibs().keySet()) {
+                if (lookingHope.isVisited()) continue;
                 if(lookingHope.getWayCost()<0) {
                     lookingHope.setWayCost(currentNode.GetRibs().get(lookingHope) + currentNode.getWayCost());
                     queue.add(lookingHope);
@@ -51,6 +54,20 @@ public class UndirectedGraph {
             currentNode.setVisited(true);
         } while (!queue.isEmpty());
         return endVertex.getWayCost();
+    }
+
+    private int GetMinimal(LinkedList<UndirectedGraphNode> queue) {
+        if (queue.isEmpty()) return -1;
+        long min = queue.get(0).getWayCost();
+        int index = 0;
+        for (var item:
+             queue) {
+            if (item.getWayCost()< min) {
+                index = queue.indexOf(item);
+                min = item.getWayCost();
+            }
+        }
+        return index;
     }
 
     private UndirectedGraphNode GetVertexByName(String name) {

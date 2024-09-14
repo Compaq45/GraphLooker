@@ -12,8 +12,9 @@ public class WebController {
     @GetMapping(path = "/")
     public HttpEntity<String> main(@RequestBody String body){
         var graph = GraphCreator.GraphFromString(body);
-        var res = graph.GetShortestWay("A","C");
-        var response = "Кратчайший путь: " + res.toString();
+        var route = GraphCreator.GetRoute(body);
+        var res = (route != null && graph != null)? graph.GetShortestWay(route[0],route[1]): null;
+        String response = "Кратчайший путь: " + (res!=null? res.toString(): "Невозможно определить");
         return new HttpEntity<>(response);
     }
 }
